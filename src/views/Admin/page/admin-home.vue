@@ -35,9 +35,10 @@
           item-key="name"
           hide-default-footer
         >
-          <!-- <template v-slot:[`item.edit`]="{ item }">
-              
-            </template> -->
+          <template v-slot:[`item.edit`]="{ item }">
+            <edit-popup-admin :adminItem="item" @getAllAuth="getAuth()" />
+            <delete-popup-admin :adminItem="item" @getAllAuth="getAuth()" />
+          </template>
         </v-data-table>
       </v-col>
 
@@ -52,10 +53,12 @@
 import axios from "axios";
 import Pagination from "../../../components/pagination.vue";
 import addPopupAdmin from "../components/add-popup-admin.vue";
+import EditPopupAdmin from "../components/edit-popup-admin.vue";
+import DeletePopupAdmin from "../components/delete-popup-admin.vue";
 
 export default {
   name: "Admin-home",
-  components: { addPopupAdmin, Pagination },
+  components: { addPopupAdmin, Pagination, EditPopupAdmin, DeletePopupAdmin },
   data() {
     return {
       loading: false,
@@ -77,6 +80,10 @@ export default {
         {
           text: "สถานะ",
           value: "status",
+        },
+        {
+          text: "จัดการ",
+          value: "edit",
         },
       ],
       allAuth: [],

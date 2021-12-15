@@ -1,50 +1,42 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
+  <v-app id="app">
+    <app-bar class="hidden-sm-and-up" v-if="navbarEnable"/>
+    <v-row>
+      <v-col lg="2" class="hidden-sm-and-down" v-show="navbarEnable">
+        <Nav />
+      </v-col>
+      <v-col cols="12" xs="12" lg="8" class="mx-auto">
+        <router-view class="mt-15" />
+      </v-col>
+    </v-row>
   </v-app>
 </template>
 
 <script>
+import Nav from "./components/Nav.vue";
+import AppBar from "./components/app-bar.vue";
+
 export default {
   name: "App",
-
+  components: {
+    Nav,
+    AppBar,
+  },
+  computed: {
+    navbarEnable() {
+      return !this.forbidRoutes.includes(this.$route.name)
+    }
+  },
   data: () => ({
-    //
+    forbidRoutes: [
+      'Login'
+    ]
   }),
 };
 </script>
+
+<style>
+#app {
+  font-family: "Prompt", sans-serif;
+}
+</style>

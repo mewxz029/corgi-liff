@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <app-bar class="hidden-sm-and-up" v-if="navbarEnable"/>
+    <app-bar class="hidden-sm-and-up" v-if="navbarEnable" />
     <v-row>
       <v-col lg="2" class="hidden-sm-and-down" v-show="navbarEnable">
         <Nav />
@@ -24,13 +24,11 @@ export default {
   },
   computed: {
     navbarEnable() {
-      return !this.forbidRoutes.includes(this.$route.name)
-    }
+      return !this.forbidRoutes.includes(this.$route.name);
+    },
   },
   data: () => ({
-    forbidRoutes: [
-      'Login'
-    ]
+    forbidRoutes: ["Login"],
   }),
 };
 </script>

@@ -22,7 +22,9 @@
     <v-row class="mt-15">
       <v-row>
         <v-col cols="12" sm="12" class="justify-start px-15">
-          <v-row class="mb-3 justify-end"> </v-row>
+          <v-row class="mb-3 justify-end">
+            <add-popup-admin @getAllAuth="getAuth()" />
+          </v-row>
         </v-col>
       </v-row>
 
@@ -40,15 +42,85 @@
       </v-col>
 
       <v-row class="mb-5">
-
+        <pagination :pageData="pageData" @changePage="changePage" />
       </v-row>
-
     </v-row>
   </v-container>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import Pagination from "../../../components/pagination.vue";
+import addPopupAdmin from "../components/add-popup-admin.vue";
+
+export default {
+  name: "Admin-home",
+  components: { addPopupAdmin, Pagination },
+  data() {
+    return {
+      loading: false,
+      headers: [
+        {
+          text: "ID",
+          align: "start",
+          sortable: false,
+          value: "_id",
+        },
+        {
+          text: "ชื่อ",
+          value: "name",
+        },
+        {
+          text: "ชื่อผู้ใช้",
+          value: "username",
+        },
+        {
+          text: "สถานะ",
+          value: "status",
+        },
+      ],
+      allAuth: [],
+      allPages: "",
+      currentPage: "",
+      pageData: {},
+    };
+  },
+  mounted() {
+    this.getAuth();
+  },
+  methods: {
+    async getAuth() {
+      this.loading = true;
+
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: "http://localhost:3000/admin",
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        });
+
+        this.allAuth = data.data.results;
+        this.allPages = data.data.pages;
+        this.currentPage = data.data.page;
+        this.pageData = {
+          path: "admin",
+          allPages: data.data.pages,
+          currentPage: data.data.page,
+        };
+        this.loading = false;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async changePage(data) {
+      this.loading = true;
+      this.allAuth = data.data.results;
+      this.pageData = data;
+      this.loading = false;
+    },
+  },
+};
 </script>
 
 <style></style>

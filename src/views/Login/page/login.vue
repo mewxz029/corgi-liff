@@ -68,7 +68,7 @@ export default {
         });
 
         if (data.success) {
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("token", data.data.token);
           this.loading = false;
           return this.$router.push({
             path: "/",

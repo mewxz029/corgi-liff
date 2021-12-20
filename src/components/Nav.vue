@@ -45,12 +45,12 @@ export default {
         {
           title: "จัดการนักเรียน",
           icon: "people",
-          route: "student",
+          route: "/student",
         },
         {
           title: "จัดการคอร์สเรียน",
           icon: "book",
-          route: "course",
+          route: "/course",
         },
         {
           title: "จัดการแอดมิน",

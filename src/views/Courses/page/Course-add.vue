@@ -4,7 +4,7 @@
       <v-btn fab dark x-small color="red" link router :to="courseHome">
         <v-icon> arrow_back </v-icon>
       </v-btn>
-      <v-icon color="black" large> business </v-icon>
+      <v-icon color="black" large> book </v-icon>
     </div>
 
     <v-row class="mt-15"></v-row>

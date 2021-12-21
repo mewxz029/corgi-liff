@@ -5,6 +5,7 @@ import Login from "../views/Login/page/login.vue";
 import AdminHome from "../views/Admin/page/admin-home.vue";
 import CourseManagement from "../views/Courses/page/Course-management.vue";
 import CourseAdd from "../views/Courses/page/Course-add.vue";
+import CourseDetail from "../views/Courses/page/Course-detail-management.vue";
 
 Vue.use(VueRouter);
 
@@ -34,12 +35,20 @@ const routes = [
     name: "CourseAdd",
     component: CourseAdd,
   },
+  {
+    path: "/course/:courseId",
+    name: "CourseDetail",
+    component: CourseDetail,
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
 });
 
 router.beforeEach((to, from, next) => {

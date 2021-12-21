@@ -6,6 +6,7 @@ import AdminHome from "../views/Admin/page/admin-home.vue";
 import CourseManagement from "../views/Courses/page/Course-management.vue";
 import CourseAdd from "../views/Courses/page/Course-add.vue";
 import CourseDetail from "../views/Courses/page/Course-detail-management.vue";
+import CourseScheduleEdit from "../views/Courses/page/Course-schedule-edit.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/course/:courseId",
     name: "CourseDetail",
     component: CourseDetail,
+  },
+  {
+    path: "/course/schedule/edit/:courseId",
+    name: "CourseScheduleEdit",
+    component: CourseScheduleEdit,
   },
 ];
 

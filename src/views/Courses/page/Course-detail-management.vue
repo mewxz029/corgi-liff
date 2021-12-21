@@ -76,7 +76,20 @@
         <v-row class="mt-15"></v-row>
         <v-card>
           <v-card-title>ตารางเรียน: </v-card-title>
-          <v-date-picker locale="th" full-width></v-date-picker>
+          <v-card-subtitle>คาบเรียนทั้งหมด: {{ event.length }}</v-card-subtitle>
+          <v-date-picker
+            locale="th"
+            full-width
+            event-color="green lighten-1"
+            :events="event"
+            v-model="date"
+          ></v-date-picker>
+          <v-card-title>{{ date }}</v-card-title>
+          <v-card-subtitle v-if="isEvent"
+            >เวลาเริ่ม {{ startTime }} เวลาสิ้นสุด
+            {{ endTime }}</v-card-subtitle
+          >
+          <v-card-subtitle v-else>ไม่มีคาบเรียน</v-card-subtitle>
         </v-card>
       </v-col>
     </v-row>
@@ -92,6 +105,12 @@ export default {
     loading: false,
     course: {},
     teacher: "",
+    date: "",
+    event: [],
+    eventTime: [],
+    isEvent: false,
+    startTime: "",
+    endTime: "",
   }),
   methods: {
     async getCourse() {
@@ -104,14 +123,43 @@ export default {
         });
         this.course = data.data[0];
         this.teacher = data.data[0].teacherId.name;
+
+        data.data[0].date.map((item) => {
+          const date = item.start.substr(0, 10);
+          const time = {
+            start: item.start.substr(11, 5),
+            end: item.end.substr(11, 5),
+          };
+          this.event.push(date);
+          this.eventTime.push(time);
+        });
+        this.date = this.event[0];
+
         this.loading = false;
       } catch (error) {
         console.error("error", error);
       }
     },
+    compareDate(date) {
+      if (this.event.indexOf(date) !== -1) {
+        const index = this.event.indexOf(date);
+        this.isEvent = true;
+        this.startTime = this.eventTime[index].start;
+        this.endTime = this.eventTime[index].end;
+      } else {
+        this.isEvent = false;
+        this.startTime = "";
+        this.endTime = "";
+      }
+    },
   },
   mounted() {
     this.getCourse();
+  },
+  watch: {
+    date(val) {
+      this.compareDate(val);
+    },
   },
 };
 </script>

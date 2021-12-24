@@ -8,7 +8,7 @@
         color="red"
         link
         router
-        :to="`/course/${$route.params.courseId}`"
+        :to="`/course/student/${$route.params.courseId}`"
       >
         <v-icon> arrow_back </v-icon>
       </v-btn>
@@ -18,9 +18,8 @@
     <v-row class="mt-15"></v-row>
     <v-row class="mt-15"></v-row>
     <h1 class="text-center mb-5">
-      รายชื่อนักเรียนที่ลงทะเบียนวิชา: {{ courseName }}
+      รายชื่อนักเรียนที่ไม่ได้ลงทะเบียนวิชา: {{ courseName }}
     </h1>
-    <p class="px-5">มีจำนวนนักเรียนที่ลงทะเบียน: {{ totalStudent }} คน</p>
     <v-row class="d-flex justify-center">
       <v-img
         v-if="loading"
@@ -30,22 +29,30 @@
         :src="require('../../../assets/loading.gif')"
       ></v-img>
     </v-row>
+
     <v-row class="mt-15">
-      <add-course-student-popup />
+      <v-row>
+        <v-col cols="12" sm="12" class="justify-start px-15">
+          <v-row class="mb-3 justify-end">
+            <v-btn
+              color="success"
+              :disabled="!selected.length"
+              @click="addStudentToCourse"
+              >เพิ่มนักเรียน</v-btn
+            >
+          </v-row>
+        </v-col>
+      </v-row>
 
       <v-col cols="12" class="px-10 mb-5">
         <v-data-table
+          v-model="selected"
           :headers="headers"
           :items="allStudent"
           item-key="_id"
+          show-select
           hide-default-footer
         >
-          <template v-slot:[`item.edit`]="{ item }">
-            <delete-course-student-popup
-              :studentItem="item"
-              @getAllStudent="getStudent()"
-            />
-          </template>
         </v-data-table>
       </v-col>
     </v-row>
@@ -54,12 +61,11 @@
 
 <script>
 import axios from "axios";
-import deleteCourseStudentPopup from "../components/delete-course-student-popup.vue";
-import AddCourseStudentPopup from "../components/add-course-student-popup.vue";
 export default {
-  components: { deleteCourseStudentPopup, AddCourseStudentPopup },
   data: () => ({
+    selected: [],
     loading: false,
+    courseName: "",
     headers: [
       {
         text: "ID",
@@ -79,35 +85,10 @@ export default {
         text: "เบอร์โทรศัพท์",
         value: "studentId.tel",
       },
-      {
-        text: "จัดการ",
-        value: "edit",
-      },
     ],
     allStudent: [],
-    courseName: "",
-    totalStudent: "",
   }),
   methods: {
-    async getStudent() {
-      this.loading = true;
-      this.allStudent = [];
-      try {
-        const { data } = await axios({
-          method: "get",
-          url: `http://localhost:3000/student-course/${this.$route.params.courseId}/course?limit=0`,
-        });
-        data.data.results.map((element) => {
-          const studentItem = element;
-          this.allStudent.push(studentItem);
-        });
-        this.totalStudent = data.data.total;
-
-        this.loading = false;
-      } catch (error) {
-        console.error("error", error);
-      }
-    },
     async getCourse() {
       this.loading = true;
       try {
@@ -122,10 +103,55 @@ export default {
         console.error("error", error);
       }
     },
+    async getStudentNotCourse() {
+      this.loading = true;
+      this.allStudent = [];
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: `http://localhost:3000/student-course/${this.$route.params.courseId}/not-course?limit=0`,
+        });
+        data.data.results.map((element) => {
+          const studentItem = element;
+          this.allStudent.push(studentItem);
+        });
+        this.loading = false;
+      } catch (error) {
+        console.error("error", error);
+      }
+    },
+    async addStudentToCourse() {
+      this.loading = true;
+      try {
+        const addStudentId = [];
+        const addStudentCourseId = [];
+        this.selected.map((item) => {
+          addStudentId.push(item.studentId._id);
+          addStudentCourseId.push(item.courseId);
+        });
+
+        addStudentId.forEach(async (student, index) => {
+          await axios({
+            method: "put",
+            url: `http://localhost:3000/student-course/${student}`,
+            data: {
+              courseId: [
+                this.$route.params.courseId,
+                ...addStudentCourseId[index],
+              ],
+            },
+          });
+        });
+        this.getStudentNotCourse();
+        this.loading = false;
+      } catch (error) {
+        console.error("error", error);
+      }
+    },
   },
   mounted() {
     this.getCourse();
-    this.getStudent();
+    this.getStudentNotCourse();
   },
 };
 </script>

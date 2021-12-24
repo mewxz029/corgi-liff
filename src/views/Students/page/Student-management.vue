@@ -98,11 +98,10 @@ export default {
           url: "http://localhost:3000/student",
         });
         this.allStudent = data.data.results;
-
         this.allPages = data.data.pages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "admin",
+          path: "student",
           allPages: data.data.pages,
           currentPage: data.data.page,
         };
@@ -114,7 +113,7 @@ export default {
     },
     async changePage(data) {
       this.loading = true;
-      this.allAuth = data.data.results;
+      this.allStudent = data.data.results;
       this.pageData = data;
       this.loading = false;
     },

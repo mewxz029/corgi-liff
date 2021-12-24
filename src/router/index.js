@@ -11,6 +11,7 @@ import CourseEdit from "../views/Courses/page/Course-edit.vue";
 import RegisterForm from "../views/Register/page/RegisterForm.vue";
 import StudentManagement from "../views/Students/page/Student-management.vue";
 import CourseStudent from "../views/Courses/page/Course-student-management.vue";
+import CourseStudentAdd from "../views/Courses/page/Course-student-add.vue";
 import Welcome from "../views/Welcome/page/Welcome.vue";
 
 Vue.use(VueRouter);
@@ -75,6 +76,11 @@ const routes = [
     path: "/course/student/:courseId",
     name: "CourseStudent",
     component: CourseStudent,
+  },
+  {
+    path: "/course/student/add/:courseId",
+    name: "CourseStudentAdd",
+    component: CourseStudentAdd,
   },
 ];
 

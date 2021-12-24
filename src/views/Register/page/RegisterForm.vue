@@ -102,12 +102,13 @@ export default {
     async submit() {
       this.loading = true;
       try {
-        await axios({
+        const { data } = await axios({
           method: "post",
           url: "http://localhost:3000/student",
           data: this.form,
         });
 
+        this.createStudentCourse(data.doc._id);
         this.success = true;
         this.loading = false;
       } catch (error) {
@@ -119,6 +120,21 @@ export default {
       this.dialog = false;
       if (this.success) {
         this.$router.push("/");
+      }
+    },
+    async createStudentCourse(id) {
+      try {
+        await axios({
+          method: "post",
+          url: `http://localhost:3000/student-course/`,
+          data: {
+            studentId: id,
+            courseId: [],
+            note: "first registered",
+          },
+        });
+      } catch (error) {
+        console.log();
       }
     },
   },

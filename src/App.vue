@@ -28,7 +28,7 @@ export default {
     },
   },
   data: () => ({
-    forbidRoutes: ["Login"],
+    forbidRoutes: ["Login", "RegisterForm", "Home"],
   }),
 };
 </script>

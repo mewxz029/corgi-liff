@@ -71,7 +71,7 @@ export default {
           localStorage.setItem("token", data.data.token);
           this.loading = false;
           return this.$router.push({
-            path: "/",
+            path: "/dashboard",
           });
         }
       } catch (err) {

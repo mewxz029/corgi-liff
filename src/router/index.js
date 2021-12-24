@@ -7,17 +7,26 @@ import CourseManagement from "../views/Courses/page/Course-management.vue";
 import CourseAdd from "../views/Courses/page/Course-add.vue";
 import CourseDetail from "../views/Courses/page/Course-detail-management.vue";
 import CourseScheduleEdit from "../views/Courses/page/Course-schedule-edit.vue";
+import CourseEdit from "../views/Courses/page/Course-edit.vue";
+import RegisterForm from "../views/Register/page/RegisterForm.vue";
+import StudentManagement from "../views/Students/page/Student-management.vue";
+import Welcome from "../views/Welcome/page/Welcome.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: Welcome,
+  },
   {
     path: "/login",
     name: "Login",
     component: Login,
   },
   {
-    path: "/",
+    path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
   },
@@ -46,6 +55,21 @@ const routes = [
     name: "CourseScheduleEdit",
     component: CourseScheduleEdit,
   },
+  {
+    path: "/course/edit/:courseId",
+    name: "CourseEdit",
+    component: CourseEdit,
+  },
+  {
+    path: "/register",
+    name: "RegisterForm",
+    component: RegisterForm,
+  },
+  {
+    path: "/student",
+    name: "Student-Management",
+    component: StudentManagement,
+  },
 ];
 
 const router = new VueRouter({
@@ -59,7 +83,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const togo = to.name;
-  const forbidRoutes = ["Login"];
+  const forbidRoutes = ["Login", "RegisterForm", "Home"];
 
   const authEnable = (togo, forbidRoutes) => {
     console.log({ togo });

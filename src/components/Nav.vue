@@ -40,7 +40,7 @@ export default {
         {
           title: "Dashboard",
           icon: "dashboard",
-          route: "/",
+          route: "/dashboard",
         },
         {
           title: "จัดการนักเรียน",

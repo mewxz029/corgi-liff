@@ -133,7 +133,6 @@ export default {
           this.event.push(date);
           this.eventTime.push(time);
         });
-        this.date = this.event[0];
 
         this.loading = false;
       } catch (error) {

@@ -1,6 +1,6 @@
 <template>
-  <div class="justify-center d-flex">
-    <h1>แดชบอร์ดโว้ยยย</h1>
+  <div class="d-flex justify-center">
+    <h1>แดชบอร์ดที่ไม่ใช่แดชบอร์ด</h1>
   </div>
 </template>
 

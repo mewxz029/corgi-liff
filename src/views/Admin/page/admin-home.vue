@@ -3,7 +3,6 @@
     <div class="header ml-4">
       <v-icon color="white" large> business </v-icon>
     </div>
-    <div class="d-flex justify-end align-center mx-10"></div>
 
     <v-row class="mt-15"></v-row>
     <v-row class="mt-15"></v-row>

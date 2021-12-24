@@ -10,6 +10,7 @@ import CourseScheduleEdit from "../views/Courses/page/Course-schedule-edit.vue";
 import CourseEdit from "../views/Courses/page/Course-edit.vue";
 import RegisterForm from "../views/Register/page/RegisterForm.vue";
 import StudentManagement from "../views/Students/page/Student-management.vue";
+import CourseStudent from "../views/Courses/page/Course-student-management.vue";
 import Welcome from "../views/Welcome/page/Welcome.vue";
 
 Vue.use(VueRouter);
@@ -69,6 +70,11 @@ const routes = [
     path: "/student",
     name: "Student-Management",
     component: StudentManagement,
+  },
+  {
+    path: "/course/student/:courseId",
+    name: "CourseStudent",
+    component: CourseStudent,
   },
 ];
 

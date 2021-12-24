@@ -10,9 +10,18 @@
     <v-row class="mt-15"></v-row>
     <v-row class="mt-8"></v-row>
 
-    <div class="d-flex justify-end mx-10 mb-5">
+    <div class="d-flex justify-end mx-10 mb-2">
       <v-btn
         color="primary"
+        link
+        router
+        :to="`/course/student/${$route.params.courseId}`"
+        >รายชื่อนักเรียนที่ลงทะเบียน</v-btn
+      >
+    </div>
+    <div class="d-flex justify-end mx-10 mb-5">
+      <v-btn
+        color="warning"
         class="mr-1"
         link
         router

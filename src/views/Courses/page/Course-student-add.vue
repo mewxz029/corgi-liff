@@ -142,6 +142,7 @@ export default {
             },
           });
         });
+        this.selected = [];
         this.getStudentNotCourse();
         this.loading = false;
       } catch (error) {

@@ -28,7 +28,14 @@ export default {
     },
   },
   data: () => ({
-    forbidRoutes: ["Login", "RegisterForm", "Home"],
+    forbidRoutes: [
+      "Login",
+      "RegisterForm",
+      "Home",
+      "CheckCourse",
+      "CheckCourseSchedule",
+      "CheckCoursePlayback",
+    ],
   }),
 };
 </script>

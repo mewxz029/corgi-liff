@@ -27,6 +27,7 @@
           hide-default-footer
         >
           <template v-slot:[`item.edit`]="{ item }">
+            <detail-button-student :studentItem="item" />
             <edit-popup-student
               :studentItem="item"
               @getStudent="getStudent()"
@@ -51,9 +52,15 @@ import axios from "axios";
 import pagination from "../../../components/pagination.vue";
 import EditPopupStudent from "../components/edit-popup-student.vue";
 import DeletePopupStudent from "../components/delete-popup-student.vue";
+import DetailButtonStudent from "../components/detail-button-student.vue";
 
 export default {
-  components: { pagination, EditPopupStudent, DeletePopupStudent },
+  components: {
+    pagination,
+    EditPopupStudent,
+    DeletePopupStudent,
+    DetailButtonStudent,
+  },
   data: () => ({
     loading: false,
     headers: [

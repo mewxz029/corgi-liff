@@ -104,7 +104,7 @@ export default {
       try {
         const { data } = await axios({
           method: "post",
-          url: "http://localhost:3000/student",
+          url: `${process.env.VUE_APP_API_URL}student`,
           data: this.form,
         });
 
@@ -126,7 +126,7 @@ export default {
       try {
         await axios({
           method: "post",
-          url: `http://localhost:3000/student-course/`,
+          url: `${process.env.VUE_APP_API_URL}student-course/`,
           data: {
             studentId: id,
             courseId: [],

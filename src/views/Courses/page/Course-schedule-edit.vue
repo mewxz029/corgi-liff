@@ -133,6 +133,15 @@
           </v-dialog>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col cols="12" sm="6">
+          <v-text-field
+            label="URL ห้องเรียน"
+            type="text"
+            v-model="classUrl"
+          ></v-text-field>
+        </v-col>
+      </v-row>
     </v-form>
 
     <v-row>
@@ -212,6 +221,7 @@ export default {
     arrDate: [],
     dialogDelete: false,
     editedIndex: -1,
+    classUrl: "",
     headers: [
       {
         text: "ปี/เดือน/วันที่",
@@ -224,6 +234,10 @@ export default {
       {
         text: "เวลาสิ้นสุด",
         value: "end",
+      },
+      {
+        text: "URL ห้องเรียน",
+        value: "url",
       },
       {
         text: "Actions",
@@ -240,10 +254,11 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
         this.arrDate = data.data[0].date;
+        console.log(this.arrDate);
         this.formatDate();
 
         this.loading = false;
@@ -254,15 +269,16 @@ export default {
     async addCourseDate() {
       this.loading = true;
       const datetime = {
-        start: `${this.date}T${this.startTime}:00.000Z`,
-        end: `${this.date}T${this.endTime}:00.000Z`,
+        start: `${this.date}T${this.startTime}:00.000+07:00`,
+        end: `${this.date}T${this.endTime}:00.000+07:00`,
+        url: this.classUrl,
       };
       this.arrDate.push(datetime);
 
       try {
         await axios({
           method: "put",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: { date: this.arrDate },
         });
@@ -275,9 +291,10 @@ export default {
       this.dateShow = [];
       this.arrDate.map((item) => {
         const result = {
-          date: item.start.substr(0, 10),
-          start: item.start.substr(11, 5),
-          end: item.end.substr(11, 5),
+          date: item.end.substr(0, 10),
+          start: new Date(item.start).toString().substr(16, 5),
+          end: new Date(item.end).toString().substr(16, 5),
+          url: item.url,
         };
         this.dateShow.push(result);
       });
@@ -294,7 +311,7 @@ export default {
       try {
         await axios({
           method: "put",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: { date: this.arrDate },
         });

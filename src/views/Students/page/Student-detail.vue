@@ -89,7 +89,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student/${this.$route.params.studentId}`,
+          url: `${process.env.VUE_APP_API_URL}student/${this.$route.params.studentId}`,
         });
         this.student = data.data;
         this.loading = false;
@@ -102,7 +102,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student-course/${this.$route.params.studentId}/student`,
+          url: `${process.env.VUE_APP_API_URL}student-course/${this.$route.params.studentId}/student`,
         });
         this.studentCourse = data.data[0].courseId;
         this.loading = false;

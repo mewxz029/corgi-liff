@@ -119,7 +119,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: "http://localhost:3000/admin?limit=0",
+          url: `${process.env.VUE_APP_API_URL}admin?limit=0`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -141,7 +141,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -158,7 +158,7 @@ export default {
       try {
         await axios({
           method: "put",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: this.form,
         });

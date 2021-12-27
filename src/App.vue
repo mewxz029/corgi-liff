@@ -35,6 +35,7 @@ export default {
       "CheckCourse",
       "CheckCourseSchedule",
       "CheckCoursePlayback",
+      "CheckCoursePlaybackDetail",
     ],
   }),
 };

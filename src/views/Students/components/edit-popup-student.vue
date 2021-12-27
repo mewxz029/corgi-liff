@@ -99,7 +99,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student/${this.studentItem._id}`,
+          url: `${process.env.VUE_APP_API_URL}student/${this.studentItem._id}`,
         });
         this.form.firstname = data.data.firstname;
         this.form.lastname = data.data.lastname;
@@ -112,7 +112,7 @@ export default {
       try {
         await axios({
           method: "put",
-          url: `http://localhost:3000/student/${studentId}`,
+          url: `${process.env.VUE_APP_API_URL}student/${studentId}`,
           data: {
             firstname: this.form.firstname,
             lastname: this.form.lastname,

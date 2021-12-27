@@ -60,13 +60,12 @@ export default {
         this.loading = true;
         const { data } = await axios({
           method: "post",
-          url: `http://localhost:3000/admin/auth`,
+          url: `${process.env.VUE_APP_API_URL}admin/auth`,
           data: {
             username: this.form.username,
             password: this.form.password,
           },
         });
-
         if (data.success) {
           localStorage.setItem("token", data.data.token);
           this.loading = false;

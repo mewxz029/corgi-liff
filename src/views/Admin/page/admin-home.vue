@@ -101,7 +101,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: "http://localhost:3000/admin",
+          url: `${process.env.VUE_APP_API_URL}admin`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 

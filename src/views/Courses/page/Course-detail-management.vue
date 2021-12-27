@@ -9,7 +9,16 @@
 
     <v-row class="mt-15"></v-row>
     <v-row class="mt-8"></v-row>
-
+    <div class="d-flex justify-end mx-10 mb-2">
+      <v-btn
+        color="blue-grey"
+        dark
+        link
+        router
+        :to="`/course/playback/${$route.params.courseId}`"
+        >จัดการวิดีโอย้อนหลัง</v-btn
+      >
+    </div>
     <div class="d-flex justify-end mx-10 mb-2">
       <v-btn
         color="primary"
@@ -127,7 +136,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
         this.course = data.data[0];

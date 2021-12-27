@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title class="red darken-1 text-white">
-        คุณต้องการลบ {{ studentItem.firstname }} ?
+        คุณต้องการลบวิดีโอย้อนหลัง {{ courseItem.date }} ?
       </v-card-title>
 
       <v-divider></v-divider>
@@ -14,7 +14,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="red" text @click="studentDelete(studentItem._id)">
+        <v-btn color="red" text @click="courseDelete(courseItem._id)">
           ตกลง
         </v-btn>
 
@@ -28,7 +28,7 @@
 import axios from "axios";
 export default {
   props: {
-    studentItem: {
+    courseItem: {
       type: Object,
     },
   },
@@ -38,15 +38,15 @@ export default {
     };
   },
   methods: {
-    async studentDelete(studentId) {
+    async courseDelete(courseId) {
       try {
         await axios({
           method: "delete",
-          url: `${process.env.VUE_APP_API_URL}student/${studentId}`,
+          url: `${process.env.VUE_APP_API_URL}course-video/${courseId}`,
         });
 
         this.dialog = false;
-        this.$emit("getStudent");
+        this.$emit("getAllCourse");
       } catch (error) {
         console.error(error);
       }

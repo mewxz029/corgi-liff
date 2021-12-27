@@ -94,7 +94,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
         this.courseName = data.data[0].title;
@@ -109,7 +109,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student-course/${this.$route.params.courseId}/not-course?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}student-course/${this.$route.params.courseId}/not-course?limit=0`,
         });
         data.data.results.map((element) => {
           const studentItem = element;
@@ -133,7 +133,7 @@ export default {
         addStudentId.forEach(async (student, index) => {
           await axios({
             method: "put",
-            url: `http://localhost:3000/student-course/${student}`,
+            url: `${process.env.VUE_APP_API_URL}student-course/${student}`,
             data: {
               courseId: [
                 this.$route.params.courseId,

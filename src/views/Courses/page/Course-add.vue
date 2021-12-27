@@ -112,7 +112,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: "http://localhost:3000/admin?limit=0",
+          url: `${process.env.VUE_APP_API_URL}admin?limit=0`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -137,7 +137,7 @@ export default {
         this.form.updatedBy = this.form.teacherId;
         await axios({
           method: "post",
-          url: "http://localhost:3000/course",
+          url: `${process.env.VUE_APP_API_URL}course`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: this.form,
         });

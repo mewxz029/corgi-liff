@@ -42,7 +42,7 @@ export default {
       try {
         await axios({
           method: "delete",
-          url: `http://localhost:3000/admin/${adminId}`,
+          url: `${process.env.VUE_APP_API_URL}admin/${adminId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 

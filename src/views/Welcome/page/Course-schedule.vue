@@ -176,10 +176,9 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student-course/${this.$store.state.student._id}/student`,
+          url: `${process.env.VUE_APP_API_URL}student-course/${this.$store.state.student._id}/student`,
         });
         this.courses = data.data[0].courseId;
-        // console.log(this.courses);
       } catch (error) {
         console.error("error", error);
       }

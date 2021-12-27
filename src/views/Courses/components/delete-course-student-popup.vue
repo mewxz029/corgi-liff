@@ -48,7 +48,7 @@ export default {
         this.filterCourse();
         await axios({
           method: "put",
-          url: `http://localhost:3000/student-course/${studentId}`,
+          url: `${process.env.VUE_APP_API_URL}student-course/${studentId}`,
           data: {
             courseId: this.courseItem,
           },

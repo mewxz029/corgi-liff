@@ -134,7 +134,7 @@ export default {
         try {
           await axios({
             method: "post",
-            url: "http://localhost:3000/admin/",
+            url: `${process.env.VUE_APP_API_URL}admin/`,
             data: {
               name: this.form.name,
               username: this.form.username,
@@ -160,7 +160,7 @@ export default {
       try {
         const { data } = await axios({
           method: "post",
-          url: "http://localhost:3000/admin/check",
+          url: `${process.env.VUE_APP_API_URL}admin/check`,
           data: {
             username: this.form.username,
           },

@@ -6,17 +6,28 @@
 
     <v-card>
       <v-card-title dark class="deep-purple darken-4 text-white">
-        แก้ไข {{ adminItem.username }}
+        แก้ไข {{ courseItem.date }}
       </v-card-title>
       <div class="mt-10">
         <v-form v-model="valid">
           <v-row class="justify-center">
             <v-col cols="10" class="mb-0">
               <v-text-field
-                prepend-icon="person"
-                :rules="nameRules"
-                v-model="form.name"
-                label="ชื่อ"
+                prepend-icon="link"
+                :rules="urlRules"
+                v-model="form.url"
+                label="Video URL"
+                type="text"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row class="justify-center">
+            <v-col cols="10" class="mb-0">
+              <v-text-field
+                prepend-icon="chat"
+                v-model="form.desc"
+                label="desc"
                 type="text"
                 required
               ></v-text-field>
@@ -32,7 +43,7 @@
         <v-btn
           color="primary"
           text
-          @click="authUpdate(adminItem._id)"
+          @click="courseUpdate(courseItem._id)"
           :disabled="!valid || loading"
         >
           บันทึก
@@ -49,7 +60,7 @@ import axios from "axios";
 
 export default {
   props: {
-    adminItem: {
+    courseItem: {
       type: Object,
     },
   },
@@ -59,40 +70,37 @@ export default {
       loading: false,
       dialog: false,
       form: {
-        name: "",
+        url: "",
+        desc: "",
       },
-      nameRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
+      urlRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
     };
   },
   mounted() {
     this.init();
   },
   methods: {
-    async init() {
+    init() {
       try {
-        const result = await axios({
-          method: "get",
-          url: `${process.env.VUE_APP_API_URL}admin/${this.adminItem._id}`,
-          headers: { Authorization: `Bearer ${localStorage.token}` },
-        });
-        this.form.name = result.data.data.name;
+        this.form.url = this.courseItem.url;
+        this.form.desc = this.courseItem.desc;
       } catch (error) {
         console.error(error);
       }
     },
-    async authUpdate(adminId) {
+    async courseUpdate(courseId) {
       try {
         await axios({
           method: "put",
-          url: `${process.env.VUE_APP_API_URL}admin/${adminId}`,
-          headers: { Authorization: `Bearer ${localStorage.token}` },
+          url: `${process.env.VUE_APP_API_URL}course-video/${courseId}`,
           data: {
-            name: this.form.name,
+            url: this.form.name,
+            desc: this.form.desc,
           },
         });
 
         this.dialog = false;
-        this.$emit("getAllAuth");
+        this.$emit("getAllCourse");
       } catch (error) {
         console.error(error);
       }

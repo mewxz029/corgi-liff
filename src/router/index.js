@@ -12,6 +12,7 @@ import CourseScheduleEdit from "../views/Courses/page/Course-schedule-edit.vue";
 import CourseEdit from "../views/Courses/page/Course-edit.vue";
 import CourseStudent from "../views/Courses/page/Course-student-management.vue";
 import CourseStudentAdd from "../views/Courses/page/Course-student-add.vue";
+import CoursePlaybackManagement from "../views/Courses/page/Course-playback-management.vue";
 
 import StudentManagement from "../views/Students/page/Student-management.vue";
 import StudentDetail from "../views/Students/page/Student-detail.vue";
@@ -21,6 +22,7 @@ import RegisterForm from "../views/Register/page/RegisterForm.vue";
 import CourseCheck from "../views/Welcome/page/Course-check";
 import CourseScheduleCheck from "../views/Welcome/page/Course-schedule.vue";
 import CoursePlayback from "../views/Welcome/page/Course-playback.vue";
+import CoursePlaybackDetail from "../views/Welcome/page/Course-playback-detail.vue";
 
 Vue.use(VueRouter);
 
@@ -50,6 +52,11 @@ const routes = [
     path: "/check-playback",
     name: "CheckCoursePlayback",
     component: CoursePlayback,
+  },
+  {
+    path: "/check-playback/:courseId",
+    name: "CheckCoursePlaybackDetail",
+    component: CoursePlaybackDetail,
   },
   // Admin Management Route
   {
@@ -87,6 +94,11 @@ const routes = [
     path: "/course/schedule/edit/:courseId",
     name: "CourseScheduleEdit",
     component: CourseScheduleEdit,
+  },
+  {
+    path: "/course/playback/:courseId",
+    name: "CoursePlayBackManagement",
+    component: CoursePlaybackManagement,
   },
   {
     path: "/course/edit/:courseId",
@@ -134,6 +146,7 @@ router.beforeEach((to, from, next) => {
     "CheckCourse",
     "CheckCourseSchedule",
     "CheckCoursePlayback",
+    "CheckCoursePlaybackDetail",
   ];
 
   const authEnable = (togo, forbidRoutes) => {

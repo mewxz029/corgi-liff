@@ -1,5 +1,16 @@
 <template>
-  <v-container>
+  <v-container v-if="loading">
+    <v-row class="d-flex justify-center">
+      <v-img
+        v-if="loading"
+        alt=""
+        max-height="105"
+        max-width="105"
+        :src="require('../../../assets/loading.gif')"
+      ></v-img>
+    </v-row>
+  </v-container>
+  <v-container v-else>
     <v-row>
       <v-col cols="12">
         <h1 class="text-center">ยินดีต้อนรับ</h1>
@@ -38,6 +49,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      loading: false,
       isUsed: false,
       student: {},
     };
@@ -47,6 +59,7 @@ export default {
   },
   methods: {
     async getUserProfile() {
+      this.loading = true;
       try {
         await liff.init({ liffId: "1656648626-k0e1wr2Q" });
         if (liff.isLoggedIn()) {
@@ -64,7 +77,7 @@ export default {
       try {
         const { data } = await axios({
           method: "post",
-          url: "http://localhost:3000/student/check",
+          url: `${process.env.VUE_APP_API_URL}student/check`,
           data: { lineUid: this.$store.state.lineUid },
         });
 
@@ -82,11 +95,12 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/student/${lineUid}/lineUid`,
+          url: `${process.env.VUE_APP_API_URL}student/${lineUid}/lineUid`,
         });
 
         this.student = data.data;
         this.$store.dispatch("addAction", this.student);
+        this.loading = false;
       } catch (error) {
         console.error("error", error);
       }

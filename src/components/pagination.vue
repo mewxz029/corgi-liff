@@ -51,7 +51,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/${this.path}?page=${index + 1}`,
+          url: `${process.env.VUE_APP_API_URL}${this.path}?page=${index + 1}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -73,7 +73,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/${this.path}?page=${
+          url: `${process.env.VUE_APP_API_URL}${this.path}?page=${
             parseInt(this.currentPage) + 1
           }`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
@@ -93,7 +93,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `http://localhost:3000/${this.path}?page=${
+          url: `${process.env.VUE_APP_API_URL}${this.path}?page=${
             parseInt(this.currentPage) - 1
           }`,
           headers: { Authorization: `Bearer ${localStorage.token}` },

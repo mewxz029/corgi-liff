@@ -224,7 +224,7 @@ export default {
     classUrl: "",
     headers: [
       {
-        text: "ปี/เดือน/วันที่",
+        text: "วัน/เดือน/วันที่/ปี",
         value: "date",
       },
       {
@@ -291,7 +291,7 @@ export default {
       this.dateShow = [];
       this.arrDate.map((item) => {
         const result = {
-          date: item.end.substr(0, 10),
+          date: new Date(item.start).toString().substr(0, 15),
           start: new Date(item.start).toString().substr(16, 5),
           end: new Date(item.end).toString().substr(16, 5),
           url: item.url,

@@ -42,7 +42,11 @@
         </v-card>
       </v-col>
       <v-col cols="12" class="d-flex justify-end px-10 mb-5">
-        <pagination :pageData="pageData" @changePage="changePage" />
+        <pagination
+          v-if="allCourse.length !== 0"
+          :pageData="pageData"
+          @changePage="changePage"
+        />
       </v-col>
     </v-row>
   </v-container>

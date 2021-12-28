@@ -38,11 +38,9 @@ export default {
     };
   },
   mounted() {
-    setTimeout(() => {
-      this.path = this.pageData.path;
-      this.allPages = this.pageData.allPages;
-      this.currentPage = this.pageData.currentPage;
-    }, 500);
+    this.path = this.pageData.path;
+    this.allPages = this.pageData.allPages;
+    this.currentPage = this.pageData.currentPage;
   },
   methods: {
     async changePage(index) {

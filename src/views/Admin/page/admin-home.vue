@@ -42,7 +42,11 @@
       </v-col>
 
       <v-row class="mb-5">
-        <pagination :pageData="pageData" @changePage="changePage" />
+        <pagination
+          v-if="allAuth.length !== 0"
+          :pageData="pageData"
+          @changePage="changePage"
+        />
       </v-row>
     </v-row>
   </v-container>

@@ -82,7 +82,7 @@ export default {
         this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "course",
+          path: "/new-course",
           allPages: data.data.totalPages,
           currentPage: data.data.page,
         };

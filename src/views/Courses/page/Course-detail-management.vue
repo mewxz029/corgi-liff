@@ -41,7 +41,7 @@
         color="success"
         link
         router
-        :to="`/course/schedule/edit/${this.$route.params.courseId}`"
+        :to="`/course/schedule/${this.$route.params.courseId}`"
         >แก้ไขตารางเรียน</v-btn
       >
     </div>
@@ -158,7 +158,7 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        data.data.map((item) => {
+        data.data.docs.map((item) => {
           const date = dayjs(new Date(item.start)).format("YYYY-MM-DD");
           const time = {
             start: dayjs(new Date(item.start)).format("HH:mm"),

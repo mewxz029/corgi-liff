@@ -13,6 +13,7 @@ import CourseEdit from "../views/Courses/page/Course-edit.vue";
 import CourseStudent from "../views/Courses/page/Course-student-management.vue";
 import CourseStudentAdd from "../views/Courses/page/Course-student-add.vue";
 import CoursePlaybackManagement from "../views/Courses/page/Course-playback-management.vue";
+import CourseScheduleManagement from "../views/Courses/page/Course-schedule-management.vue";
 
 import StudentManagement from "../views/Students/page/Student-management.vue";
 import StudentDetail from "../views/Students/page/Student-detail.vue";
@@ -114,6 +115,11 @@ const routes = [
     path: "/course/student/add/:courseId",
     name: "CourseStudentAdd",
     component: CourseStudentAdd,
+  },
+  {
+    path: "/course/schedule/:courseId",
+    name: "CourseSchedule-Management",
+    component: CourseScheduleManagement,
   },
   // Student Management Route
   {

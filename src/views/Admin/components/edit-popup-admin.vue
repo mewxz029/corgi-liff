@@ -75,7 +75,7 @@ export default {
           url: `${process.env.VUE_APP_API_URL}/user/${this.adminItem.userId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        
+
         this.form.name = data.data.name;
       } catch (error) {
         console.error(error);

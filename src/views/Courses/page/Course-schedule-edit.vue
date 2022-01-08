@@ -51,7 +51,6 @@
         </v-col>
 
         <v-spacer></v-spacer>
-
         <v-col cols="12" sm="6" md="4">
           <v-dialog
             ref="startTimeDialog"
@@ -204,6 +203,7 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   data: () => ({
@@ -218,13 +218,13 @@ export default {
     endTime: null,
     endTimeModal: false,
     dateShow: [],
-    arrDate: [],
     dialogDelete: false,
     editedIndex: -1,
     classUrl: "",
+    schedules: [],
     headers: [
       {
-        text: "วัน/เดือน/วันที่/ปี",
+        text: "วันที่/เดือน/ปี",
         value: "date",
       },
       {
@@ -254,11 +254,11 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/course-schedule/${this.$route.params.courseId}/course`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.arrDate = data.data[0].date;
-        console.log(this.arrDate);
+        this.schedules = data.data;
+        console.log(this.schedules);
         this.formatDate();
 
         this.loading = false;
@@ -289,11 +289,11 @@ export default {
     },
     formatDate() {
       this.dateShow = [];
-      this.arrDate.map((item) => {
+      this.schedules.map((item) => {
         const result = {
-          date: new Date(item.start).toString().substr(0, 15),
-          start: new Date(item.start).toString().substr(16, 5),
-          end: new Date(item.end).toString().substr(16, 5),
+          date: dayjs(new Date(item.start)).format("DD/MM/YYYY"),
+          start: dayjs(new Date(item.start)).format("HH:mm"),
+          end: dayjs(new Date(item.end)).format("HH:mm"),
           url: item.url,
         };
         this.dateShow.push(result);
@@ -340,4 +340,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.timepicker {
+  width: 100px;
+}
+</style>

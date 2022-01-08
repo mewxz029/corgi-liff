@@ -55,8 +55,8 @@
               prepend-icon="man"
               :items="teachers"
               item-text="name"
-              item-value="id"
-              v-model="form.teacherId"
+              item-value="userId"
+              v-model="form.teacher"
               label="ผู้สอน"
               :rules="teacherRules"
               outlined
@@ -103,7 +103,10 @@ export default {
       form: {
         title: "",
         desc: "",
-        teacherId: "",
+        teacher: {
+          userId: "",
+          name: "",
+        },
         imgUrl: "",
         createdBy: "",
         updatedBy: "",
@@ -119,14 +122,14 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}admin?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/user/teacher-admin?paginate=0`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
         if (data.data) {
-          for (let teacher of data.data.results) {
+          for (let teacher of data.data.docs) {
             this.teachers.push({
-              id: teacher._id,
+              userId: teacher.userId,
               name: teacher.name,
             });
           }
@@ -141,24 +144,27 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.form = data.data[0];
-        this.form.teacherId = data.data[0].teacherId._id;
-        console.log(data.data[0]);
+        this.form = data.data;
+        this.form.teacher = data.data.teacher;
+        console.log(data.data);
         this.loading = false;
       } catch (error) {
         console.error("error", error);
       }
     },
     async submitCourse() {
+      this.form.teacher = this.teachers.find(
+        (teacher) => teacher.userId === this.form.teacher
+      );
       this.loading = true;
       try {
         await axios({
           method: "put",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: this.form,
         });

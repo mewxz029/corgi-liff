@@ -116,6 +116,7 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   data: () => ({
@@ -157,18 +158,15 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        console.log(data.data);
         data.data.map((item) => {
-          const date = item.start.substr(0, 10);
+          const date = dayjs(new Date(item.start)).format("YYYY-MM-DD");
           const time = {
-            start: item.start.substr(11, 5),
-            end: item.end.substr(11, 5),
+            start: dayjs(new Date(item.start)).format("HH:mm"),
+            end: dayjs(new Date(item.end)).format("HH:mm"),
           };
           this.event.push(date);
           this.eventTime.push(time);
         });
-        console.log(this.event);
-        console.log(this.eventTime);
       } catch (error) {
         console.error("error", error);
       }

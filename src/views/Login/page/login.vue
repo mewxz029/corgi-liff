@@ -60,7 +60,7 @@ export default {
         this.loading = true;
         const { data } = await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}admin/auth`,
+          url: `${process.env.VUE_APP_API_URL}/user/login`,
           data: {
             username: this.form.username,
             password: this.form.password,

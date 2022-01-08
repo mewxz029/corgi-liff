@@ -134,11 +134,12 @@ export default {
         try {
           await axios({
             method: "post",
-            url: `${process.env.VUE_APP_API_URL}admin/`,
+            url: `${process.env.VUE_APP_API_URL}/user/`,
             data: {
               name: this.form.name,
               username: this.form.username,
               password: this.form.password,
+              role: "admin",
             },
             headers: { Authorization: `Bearer ${localStorage.token}` },
           });
@@ -160,16 +161,14 @@ export default {
       try {
         const { data } = await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}admin/check`,
+          url: `${process.env.VUE_APP_API_URL}/user/check/username`,
           data: {
             username: this.form.username,
           },
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        if (data.data.used) {
-          this.isUsed = true;
-        }
+        this.isUsed = data.used;
       } catch (err) {
         console.error(err);
       }

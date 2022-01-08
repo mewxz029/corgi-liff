@@ -14,7 +14,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="red" text @click="authDelete(adminItem._id)">
+        <v-btn color="red" text @click="authDelete(adminItem.userId)">
           ตกลง
         </v-btn>
 
@@ -42,7 +42,7 @@ export default {
       try {
         await axios({
           method: "delete",
-          url: `${process.env.VUE_APP_API_URL}admin/${adminId}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${adminId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 

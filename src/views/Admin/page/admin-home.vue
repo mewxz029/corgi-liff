@@ -105,18 +105,19 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}admin`,
+          url: `${process.env.VUE_APP_API_URL}/user/admin`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.allAuth = data.data.results;
-        this.allPages = data.data.pages;
+        this.allAuth = data.data.docs;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "admin",
-          allPages: data.data.pages,
+          path: "/user/admin",
+          allPages: data.data.totalPages,
           currentPage: data.data.page,
         };
+
         this.loading = false;
       } catch (error) {
         console.error(error);
@@ -125,7 +126,7 @@ export default {
 
     async changePage(data) {
       this.loading = true;
-      this.allAuth = data.data.results;
+      this.allAuth = data.data.docs;
       this.pageData = data;
       this.loading = false;
     },

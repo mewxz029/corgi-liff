@@ -53,7 +53,7 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.allPages = data.data.pages;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.$emit("changePage", data);
 
@@ -77,7 +77,7 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.allPages = data.data.pages;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.$emit("changePage", data);
         this.loading = false;
@@ -97,7 +97,7 @@ export default {
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.allPages = data.data.pages;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.$emit("changePage", data);
         this.loading = false;

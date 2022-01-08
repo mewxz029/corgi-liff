@@ -32,7 +32,7 @@
         <v-btn
           color="primary"
           text
-          @click="authUpdate(adminItem._id)"
+          @click="authUpdate(adminItem.userId)"
           :disabled="!valid || loading"
         >
           บันทึก
@@ -70,12 +70,13 @@ export default {
   methods: {
     async init() {
       try {
-        const result = await axios({
+        const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}admin/${this.adminItem._id}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${this.adminItem.userId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.form.name = result.data.data.name;
+        
+        this.form.name = data.data.name;
       } catch (error) {
         console.error(error);
       }
@@ -84,7 +85,7 @@ export default {
       try {
         await axios({
           method: "put",
-          url: `${process.env.VUE_APP_API_URL}admin/${adminId}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${adminId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
           data: {
             name: this.form.name,

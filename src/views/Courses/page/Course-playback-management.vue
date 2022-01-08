@@ -33,7 +33,7 @@
       <v-row>
         <v-col cols="12" sm="12" class="justify-start px-15">
           <v-row class="mb-3 justify-end">
-            <add-popup-playback />
+            <add-popup-playback @getAllCourse="getCourseVideo()" />
           </v-row>
         </v-col>
       </v-row>
@@ -43,9 +43,12 @@
       <v-data-table
         :headers="headers"
         :items="allCourseVideo"
-        item-key="_id"
+        item-key="courseVideoId"
         hide-default-footer
       >
+        <template v-slot:[`item.url`]="{ value }">
+          <a :href="value" target="_blank">{{ value }}</a>
+        </template>
         <template v-slot:[`item.edit`]="{ item }">
           <edit-popup-playback
             :courseItem="item"
@@ -66,6 +69,7 @@ import axios from "axios";
 import addPopupPlayback from "../components/add-popup-playback.vue";
 import EditPopupPlayback from "../components/edit-popup-playback.vue";
 import DeletePopupPlayback from "../components/delete-popup-playback.vue";
+import dayjs from "dayjs";
 
 export default {
   components: { addPopupPlayback, EditPopupPlayback, DeletePopupPlayback },
@@ -84,7 +88,7 @@ export default {
         },
         {
           text: "รายละเอียด",
-          value: "desc",
+          value: "note",
         },
         {
           text: "จัดการ",
@@ -101,14 +105,18 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course-video/${this.$route.params.courseId}/course?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/new-course-video/`,
         });
 
-        data.data.result.map((item) => {
+        data.data.docs.map((item) => {
           this.allCourseVideo.push({
-            _id: item._id,
-            date: new Date(item.date),
-            desc: item.desc,
+            courseVideoId: item.courseVideoId,
+            course: item.course,
+            date: `${dayjs(item.schedule.start).format(
+              "YYYY-MM-DD HH:mm"
+            )} - ${dayjs(item.schedule.end).format("HH:mm")}`,
+            schedule: item.schedule,
+            note: item.note,
             url: item.url,
           });
         });

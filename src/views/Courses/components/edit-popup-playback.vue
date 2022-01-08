@@ -26,8 +26,8 @@
             <v-col cols="10" class="mb-0">
               <v-text-field
                 prepend-icon="chat"
-                v-model="form.desc"
-                label="desc"
+                v-model="form.note"
+                label="รายละเอียด"
                 type="text"
                 required
               ></v-text-field>
@@ -43,7 +43,7 @@
         <v-btn
           color="primary"
           text
-          @click="courseUpdate(courseItem._id)"
+          @click="courseUpdate(courseItem.courseVideoId)"
           :disabled="!valid || loading"
         >
           บันทึก
@@ -71,7 +71,7 @@ export default {
       dialog: false,
       form: {
         url: "",
-        desc: "",
+        note: "",
       },
       urlRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
     };
@@ -83,19 +83,19 @@ export default {
     init() {
       try {
         this.form.url = this.courseItem.url;
-        this.form.desc = this.courseItem.desc;
+        this.form.note = this.courseItem.note;
       } catch (error) {
         console.error(error);
       }
     },
-    async courseUpdate(courseId) {
+    async courseUpdate(courseVideoId) {
       try {
         await axios({
           method: "put",
-          url: `${process.env.VUE_APP_API_URL}course-video/${courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course-video/${courseVideoId}`,
           data: {
             url: this.form.name,
-            desc: this.form.desc,
+            note: this.form.note,
           },
         });
 

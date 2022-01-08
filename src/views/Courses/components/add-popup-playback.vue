@@ -17,7 +17,8 @@
 
     <v-card>
       <v-card-title class="teal darken-1 text-white"
-        >เพิ่มวิดีโอย้อนหลัง</v-card-title
+        >เพิ่มวิดีโอย้อนหลังวิชา:
+        <span v-if="course">{{ course.title }}</span></v-card-title
       >
       <div class="mt-10">
         <v-form v-model="valid">
@@ -27,10 +28,11 @@
                 :items="allDate"
                 label="วันเวลา"
                 item-text="text"
-                item-value="date"
-                v-model="form.date"
+                item-value="courseScheduleId"
+                v-model="form.schedule"
                 :rules="dateRules"
                 prepend-icon="mdi-calendar"
+                return-object
                 outlined
                 dense
               ></v-select>
@@ -52,7 +54,7 @@
             <v-col cols="10" class="mb-0">
               <v-text-field
                 prepend-icon="chat"
-                v-model="form.desc"
+                v-model="form.note"
                 label="รายละเอียด"
                 type="text"
                 required
@@ -83,6 +85,7 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   data() {
@@ -90,11 +93,12 @@ export default {
       valid: true,
       loading: false,
       dialog: false,
+      course: {},
       allDate: [],
       form: {
+        schedule: {},
         url: "",
-        date: "",
-        desc: "",
+        note: "",
       },
       urlRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
       dateRules: [(v) => !!v || "กรุณาเลือก"],
@@ -109,13 +113,20 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/course-schedule/${this.$route.params.courseId}/course`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        data.data[0].date.map((item) => {
+
+        this.course = data.data.docs[0].course;
+        data.data.docs.map((item) => {
           this.allDate.push({
-            date: item.start,
-            text: new Date(item.start).toString().substr(0, 21),
+            courseScheduleId: item.courseScheduleId,
+            text: `${dayjs(item.start).format("YYYY-MM-DD HH:mm")} - ${dayjs(
+              item.end
+            ).format("HH:mm")}`,
+            start: item.start,
+            end: item.end,
+            note: item.note,
           });
         });
         this.loading = false;
@@ -128,15 +139,16 @@ export default {
       try {
         await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}course-video`,
+          url: `${process.env.VUE_APP_API_URL}/new-course-video`,
           data: {
-            courseId: this.$route.params.courseId,
+            course: this.course,
             url: this.form.url,
-            date: this.form.date,
-            desc: this.form.desc,
+            schedule: this.form.schedule,
+            note: this.form.note,
           },
         });
         this.clearForm();
+        this.$emit("getAllCourse");
         this.loading = false;
       } catch (error) {
         console.error("error", error);
@@ -144,8 +156,8 @@ export default {
     },
     clearForm() {
       this.form.url = "";
-      this.form.date = "";
-      this.form.desc = "";
+      this.form.schedule = {};
+      this.form.note = "";
       this.dialog = false;
     },
   },

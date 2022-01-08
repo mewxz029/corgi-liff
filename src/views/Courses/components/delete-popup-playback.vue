@@ -14,7 +14,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="red" text @click="courseDelete(courseItem._id)">
+        <v-btn color="red" text @click="courseDelete(courseItem.courseVideoId)">
           ตกลง
         </v-btn>
 
@@ -42,7 +42,7 @@ export default {
       try {
         await axios({
           method: "delete",
-          url: `${process.env.VUE_APP_API_URL}course-video/${courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course-video/${courseId}`,
         });
 
         this.dialog = false;

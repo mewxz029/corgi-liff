@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title class="red darken-1 text-white">
-        คุณต้องการลบ {{ studentItem.student.name }} ?
+        คุณต้องการลบ ID: {{ scheduleItem.courseScheduleId }} ?
       </v-card-title>
 
       <v-divider></v-divider>
@@ -17,7 +17,7 @@
         <v-btn
           color="red"
           text
-          @click="studentDelete(studentItem.studentCourseId)"
+          @click="authDelete(scheduleItem.courseScheduleId)"
         >
           ตกลง
         </v-btn>
@@ -32,7 +32,7 @@
 import axios from "axios";
 export default {
   props: {
-    studentItem: {
+    scheduleItem: {
       type: Object,
     },
   },
@@ -42,15 +42,16 @@ export default {
     };
   },
   methods: {
-    async studentDelete(studentCourseId) {
+    async authDelete(courseScheduleId) {
       try {
         await axios({
           method: "delete",
-          url: `${process.env.VUE_APP_API_URL}/new-student-course/${studentCourseId}`,
+          url: `${process.env.VUE_APP_API_URL}/course-schedule/${courseScheduleId}`,
+          headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
         this.dialog = false;
-        this.$emit("getAllStudent");
+        this.$emit("getAllSchedule");
       } catch (error) {
         console.error(error);
       }

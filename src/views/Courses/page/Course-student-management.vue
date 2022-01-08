@@ -37,7 +37,7 @@
         <v-data-table
           :headers="headers"
           :items="allStudent"
-          item-key="_id"
+          item-key="userId"
           hide-default-footer
         >
           <template v-slot:[`item.edit`]="{ item }">
@@ -65,19 +65,15 @@ export default {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "studentId._id",
+        value: "student.userId",
       },
       {
-        text: "ชื่อ",
-        value: "studentId.firstname",
-      },
-      {
-        text: "นามสกุล",
-        value: "studentId.lastname",
+        text: "ชื่อ-สกุล",
+        value: "student.name",
       },
       {
         text: "เบอร์โทรศัพท์",
-        value: "studentId.tel",
+        value: "student.tel",
       },
       {
         text: "จัดการ",
@@ -95,13 +91,15 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student-course/${this.$route.params.courseId}/course?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.$route.params.courseId}/course`,
         });
-        data.data.results.map((element) => {
+
+        data.data.docs.map((element) => {
+          console.log(element);
           const studentItem = element;
           this.allStudent.push(studentItem);
         });
-        this.totalStudent = data.data.total;
+        this.totalStudent = data.data.totalDocs;
 
         this.loading = false;
       } catch (error) {
@@ -113,10 +111,10 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.courseName = data.data[0].title;
+        this.courseName = data.data.title;
         this.loading = false;
       } catch (error) {
         console.error("error", error);

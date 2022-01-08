@@ -22,6 +22,21 @@
         :src="require('../../../assets/loading.gif')"
       ></v-img>
     </v-row>
+
+    <v-row class="mt-3 justify-end mx-5">
+      <v-col cols="12" sm="4" md="3">
+        <v-select
+          :items="teachers"
+          item-text="name"
+          item-value="userId"
+          v-model="teacher"
+          label="ผู้สอน"
+          clearable
+          @change="getAllCourse"
+        ></v-select>
+      </v-col>
+    </v-row>
+
     <v-row class="mt-15 justify-center">
       <v-col cols="12" sm="10" v-for="(course, i) in allCourse" :key="i">
         <v-card
@@ -43,7 +58,7 @@
       </v-col>
       <v-col cols="12" class="d-flex justify-end px-10 mb-5">
         <pagination
-          v-if="allCourse.length !== 0"
+          v-if="!loading"
           :pageData="pageData"
           @changePage="changePage"
         />
@@ -62,6 +77,9 @@ export default {
     return {
       addCourse: "/course/add",
       loading: false,
+      teachers: [],
+      teacher: "",
+      path: "",
       allCourse: [],
       allPages: "",
       currentPage: "",
@@ -71,10 +89,16 @@ export default {
   methods: {
     async getAllCourse() {
       this.loading = true;
+      if (!this.teacher) {
+        console.log("yes");
+        this.path = `/new-course`;
+      } else {
+        this.path = `/new-course/${this.teacher}/teacher`;
+      }
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}/new-course`,
+          url: `${process.env.VUE_APP_API_URL}${this.path}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -82,7 +106,7 @@ export default {
         this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "/new-course",
+          path: this.path,
           allPages: data.data.totalPages,
           currentPage: data.data.page,
         };
@@ -92,7 +116,42 @@ export default {
         console.error("error", error);
       }
     },
-    async changePage(data) {
+    async getCourseByTeacher() {
+      this.loading = true;
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.teacher}/teacher`,
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        });
+
+        this.allCourse = data.data.docs;
+        this.allPages = data.data.totalPages;
+        this.currentPage = data.data.page;
+        this.pageData = {
+          path: `/new-course/${this.teacher}/teacher`,
+          allPages: data.data.totalPages,
+          currentPage: data.data.page,
+        };
+
+        this.loading = false;
+      } catch (error) {
+        console.error("error", error);
+      }
+    },
+    async getAllTeacher() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: `${process.env.VUE_APP_API_URL}/user/teacher-admin?paginate=0`,
+        });
+
+        this.teachers = data.data.docs;
+      } catch (error) {
+        console.error("error", error);
+      }
+    },
+    changePage(data) {
       this.loading = true;
       this.allCourse = data.data.docs;
       this.pageData = data;
@@ -100,6 +159,7 @@ export default {
     },
   },
   mounted() {
+    this.getAllTeacher();
     this.getAllCourse();
   },
 };

@@ -50,16 +50,12 @@
           <template v-slot:[`item.url`]="{ value }">
             <a :href="value" target="_blank">{{ value }}</a>
           </template>
-          <!-- <template v-slot:[`item.edit`]="{ item }">
-            <edit-popup-admin
+          <template v-slot:[`item.edit`]="{ item }">
+            <delete-schedule-course
               :scheduleItem="item"
               @getAllSchedule="getSchedule()"
             />
-            <delete-popup-admin
-              :scheduleItem="item"
-              @getAllSchedule="getSchedule()"
-            />
-          </template> -->
+          </template>
         </v-data-table>
       </v-col>
 
@@ -79,8 +75,10 @@ import axios from "axios";
 import dayjs from "dayjs";
 import AddScheduleCourse from "../components/course-schedule/add-schedule-course.vue";
 import Pagination from "../../../components/pagination.vue";
+import DeleteScheduleCourse from "../components/course-schedule/delete-schedule-course.vue";
+
 export default {
-  components: { AddScheduleCourse, Pagination },
+  components: { AddScheduleCourse, Pagination, DeleteScheduleCourse },
   data() {
     return {
       loading: false,

@@ -18,7 +18,8 @@
     <v-row class="mt-15"></v-row>
     <v-row class="mt-15"></v-row>
     <h1 class="text-center mb-5">
-      รายชื่อนักเรียนที่ไม่ได้ลงทะเบียนวิชา: {{ courseName }}
+      รายชื่อนักเรียนที่ไม่ได้ลงทะเบียนวิชา:
+      <span v-if="course">{{ course.title }}</span>
     </h1>
     <v-row class="d-flex justify-center">
       <v-img
@@ -49,7 +50,7 @@
           v-model="selected"
           :headers="headers"
           :items="allStudent"
-          item-key="_id"
+          item-key="userId"
           show-select
           hide-default-footer
         >
@@ -65,25 +66,21 @@ export default {
   data: () => ({
     selected: [],
     loading: false,
-    courseName: "",
+    course: {},
     headers: [
       {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "studentId._id",
+        value: "userId",
       },
       {
-        text: "ชื่อ",
-        value: "studentId.firstname",
-      },
-      {
-        text: "นามสกุล",
-        value: "studentId.lastname",
+        text: "ชื่อ-สกุล",
+        value: "name",
       },
       {
         text: "เบอร์โทรศัพท์",
-        value: "studentId.tel",
+        value: "tel",
       },
     ],
     allStudent: [],
@@ -94,10 +91,10 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.courseName = data.data[0].title;
+        this.course = data.data;
         this.loading = false;
       } catch (error) {
         console.error("error", error);
@@ -109,9 +106,10 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student-course/${this.$route.params.courseId}/not-course?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.$route.params.courseId}/not-course`,
         });
-        data.data.results.map((element) => {
+
+        data.data.map((element) => {
           const studentItem = element;
           this.allStudent.push(studentItem);
         });
@@ -123,23 +121,25 @@ export default {
     async addStudentToCourse() {
       this.loading = true;
       try {
-        const addStudentId = [];
-        const addStudentCourseId = [];
-        this.selected.map((item) => {
-          addStudentId.push(item.studentId._id);
-          addStudentCourseId.push(item.courseId);
-        });
-
-        addStudentId.forEach(async (student, index) => {
-          await axios({
-            method: "put",
-            url: `${process.env.VUE_APP_API_URL}student-course/${student}`,
-            data: {
-              courseId: [
-                this.$route.params.courseId,
-                ...addStudentCourseId[index],
-              ],
+        this.selected.map(async (student) => {
+          const data = {
+            student: {
+              userId: student.userId,
+              name: student.name,
+              tel: student.tel,
+              lineUid: student.lineUid,
             },
+            course: {
+              courseId: this.course.courseId,
+              title: this.course.title,
+              desc: this.course.desc,
+              imgUrl: this.course.imgUrl,
+            },
+          };
+          await axios({
+            method: "post",
+            url: `${process.env.VUE_APP_API_URL}/new-student-course`,
+            data,
           });
         });
         this.selected = [];

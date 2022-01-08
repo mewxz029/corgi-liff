@@ -136,13 +136,29 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course/${this.$route.params.courseId}`,
+          url: `${process.env.VUE_APP_API_URL}/new-course/${this.$route.params.courseId}`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.course = data.data[0];
-        this.teacher = data.data[0].teacherId.name;
 
-        data.data[0].date.map((item) => {
+        this.course = data.data;
+        this.teacher = data.data.teacher.name;
+
+        this.getCourseDate();
+        this.loading = false;
+      } catch (error) {
+        console.error("error", error);
+      }
+    },
+    async getCourseDate() {
+      try {
+        const { data } = await axios({
+          method: "get",
+          url: `${process.env.VUE_APP_API_URL}/course-schedule/${this.$route.params.courseId}/course`,
+          headers: { Authorization: `Bearer ${localStorage.token}` },
+        });
+
+        console.log(data.data);
+        data.data.map((item) => {
           const date = item.start.substr(0, 10);
           const time = {
             start: item.start.substr(11, 5),
@@ -151,8 +167,8 @@ export default {
           this.event.push(date);
           this.eventTime.push(time);
         });
-
-        this.loading = false;
+        console.log(this.event);
+        console.log(this.eventTime);
       } catch (error) {
         console.error("error", error);
       }

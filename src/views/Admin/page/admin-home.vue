@@ -70,7 +70,7 @@ export default {
           text: "ID",
           align: "start",
           sortable: false,
-          value: "_id",
+          value: "userId",
         },
         {
           text: "ชื่อ",

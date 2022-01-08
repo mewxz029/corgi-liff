@@ -29,7 +29,7 @@
           max-height="100%"
           link
           router
-          :to="`/course/${course._id}`"
+          :to="`/course/${course.courseId}`"
         >
           <v-list-item tile size="100" rounded>
             <v-list-item-avatar tile size="100">
@@ -74,16 +74,16 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course`,
+          url: `${process.env.VUE_APP_API_URL}/new-course`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
-        this.allCourse = data.data.results;
-        this.allPages = data.data.pages;
+        this.allCourse = data.data.docs;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
           path: "course",
-          allPages: data.data.pages,
+          allPages: data.data.totalPages,
           currentPage: data.data.page,
         };
 
@@ -94,7 +94,7 @@ export default {
     },
     async changePage(data) {
       this.loading = true;
-      this.allCourse = data.data.results;
+      this.allCourse = data.data.docs;
       this.pageData = data;
       this.loading = false;
     },

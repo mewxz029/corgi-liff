@@ -48,7 +48,7 @@
               :items="teachers"
               item-text="name"
               item-value="id"
-              v-model="form.teacherId"
+              v-model="form.teacher"
               label="ผู้สอน"
               :rules="teacherRules"
               outlined
@@ -95,10 +95,11 @@ export default {
       form: {
         title: "",
         desc: "",
-        teacherId: "",
+        teacher: {
+          userId: "",
+          name: "",
+        },
         imgUrl: "",
-        createdBy: "",
-        updatedBy: "",
       },
 
       titleRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
@@ -112,14 +113,14 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}admin?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/user/teacher-admin?paginate=0`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
         if (data.data) {
-          for (let teacher of data.data.results) {
+          for (let teacher of data.data.docs) {
             this.teachers.push({
-              id: teacher._id,
+              id: teacher.userId,
               name: teacher.name,
             });
           }
@@ -130,16 +131,24 @@ export default {
       }
     },
     async submitCourse() {
+      this.form.teacher = this.teachers.find(
+        (teacher) => teacher.id === this.form.teacher
+      );
       this.loading = true;
       try {
-        // Test post before use store
-        this.form.createdBy = this.form.teacherId;
-        this.form.updatedBy = this.form.teacherId;
         await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}course`,
+          url: `${process.env.VUE_APP_API_URL}/new-course`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
-          data: this.form,
+          data: {
+            title: this.form.title,
+            desc: this.form.desc,
+            teacher: {
+              userId: this.form.teacher.id,
+              name: this.form.teacher.name,
+            },
+            imgUrl: this.form.imgUrl,
+          },
         });
         this.$router.push({
           path: "/course/",

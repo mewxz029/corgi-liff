@@ -23,7 +23,7 @@
         <v-data-table
           :headers="headers"
           :items="allStudent"
-          item-key="_id"
+          item-key="userId"
           hide-default-footer
         >
           <template v-slot:[`item.edit`]="{ item }">
@@ -72,15 +72,11 @@ export default {
         text: "ID",
         align: "start",
         sortable: false,
-        value: "_id",
+        value: "userId",
       },
       {
-        text: "ชื่อ",
-        value: "firstname",
-      },
-      {
-        text: "นามสกุล",
-        value: "lastname",
+        text: "ชื่อ-สกุล",
+        value: "name",
       },
       {
         text: "เบอร์โทรศัพท์",
@@ -106,14 +102,15 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student`,
+          url: `${process.env.VUE_APP_API_URL}/user/student`,
+          headers: { Authorization: `Bearer ${localStorage.token}` },
         });
-        this.allStudent = data.data.results;
-        this.allPages = data.data.pages;
+        this.allStudent = data.data.docs;
+        this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "student",
-          allPages: data.data.pages,
+          path: "/user/student",
+          allPages: data.data.totalPages,
           currentPage: data.data.page,
         };
 
@@ -124,7 +121,7 @@ export default {
     },
     async changePage(data) {
       this.loading = true;
-      this.allStudent = data.data.results;
+      this.allStudent = data.data.docs;
       this.pageData = data;
       this.loading = false;
     },

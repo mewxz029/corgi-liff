@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title dark class="deep-purple darken-4 text-white">
-        แก้ไข {{ studentItem.firstname }}
+        แก้ไข {{ studentItem.name }}
       </v-card-title>
       <div class="mt-10">
         <v-form v-model="valid">
@@ -15,18 +15,8 @@
               <v-text-field
                 prepend-icon="person"
                 :rules="nameRules"
-                v-model="form.firstname"
-                label="ชื่อ"
-                type="text"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="10" class="mb-0">
-              <v-text-field
-                prepend-icon="person"
-                :rules="nameRules"
-                v-model="form.lastname"
-                label="นามสกุล"
+                v-model="form.name"
+                label="ชื่อ-สกุล"
                 type="text"
                 required
               ></v-text-field>
@@ -52,7 +42,7 @@
         <v-btn
           color="primary"
           text
-          @click="authUpdate(studentItem._id)"
+          @click="authUpdate(studentItem.userId)"
           :disabled="!valid || loading"
         >
           บันทึก
@@ -79,8 +69,7 @@ export default {
       loading: false,
       dialog: false,
       form: {
-        firstname: "",
-        lastname: "",
+        name: "",
         tel: "",
       },
       nameRules: [(v) => !!v || "กรุณาใส่ข้อความ"],
@@ -99,10 +88,9 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student/${this.studentItem._id}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${this.studentItem.userId}`,
         });
-        this.form.firstname = data.data.firstname;
-        this.form.lastname = data.data.lastname;
+        this.form.name = data.data.name;
         this.form.tel = data.data.tel;
       } catch (error) {
         console.error(error);
@@ -112,10 +100,9 @@ export default {
       try {
         await axios({
           method: "put",
-          url: `${process.env.VUE_APP_API_URL}student/${studentId}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${studentId}`,
           data: {
-            firstname: this.form.firstname,
-            lastname: this.form.lastname,
+            name: this.form.name,
             tel: this.form.tel,
           },
         });

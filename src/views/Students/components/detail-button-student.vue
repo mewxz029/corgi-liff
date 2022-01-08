@@ -11,7 +11,7 @@ export default {
   },
   methods: {
     goToDetail() {
-      this.$router.push(`/student/${this.studentItem._id}`);
+      this.$router.push(`/student/${this.studentItem.userId}`);
     },
   },
 };

@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title class="red darken-1 text-white">
-        คุณต้องการลบ {{ studentItem.firstname }} ?
+        คุณต้องการลบ {{ studentItem.name }} ?
       </v-card-title>
 
       <v-divider></v-divider>
@@ -14,7 +14,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="red" text @click="studentDelete(studentItem._id)">
+        <v-btn color="red" text @click="studentDelete(studentItem.userId)">
           ตกลง
         </v-btn>
 
@@ -42,7 +42,7 @@ export default {
       try {
         await axios({
           method: "delete",
-          url: `${process.env.VUE_APP_API_URL}student/${studentId}`,
+          url: `${process.env.VUE_APP_API_URL}/user/student/${studentId}`,
         });
 
         this.dialog = false;

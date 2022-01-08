@@ -39,8 +39,8 @@
           <v-list-item-content>
             <v-list-item-title class="d-flex align-baseline"
               ><h3>ชื่อ-นามสกุล:</h3>
-              <v-spacer></v-spacer>
-              <span>{{ student.firstname }} {{ student.lastname }}</span>
+              <v-col class="mr-1"></v-col>
+              <span>{{ student.name }}</span>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -49,7 +49,7 @@
           <v-list-item-content>
             <v-list-item-title class="d-flex align-baseline"
               ><h3>เบอร์โทรศัพท์:</h3>
-              <v-spacer></v-spacer>
+              <v-col class="mr-1"></v-col>
               <span>{{ student.tel }}</span>
             </v-list-item-title>
           </v-list-item-content>
@@ -63,7 +63,7 @@
       <v-card class="mx-auto mb-5" max-width="600" tile>
         <div
           v-for="course in studentCourse"
-          :key="course._id"
+          :key="course.courseId"
           class="d-flex justify-space-between"
         >
           <v-img :src="course.imgUrl" alt="" max-width="100" max-height="100" />
@@ -89,7 +89,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student/${this.$route.params.studentId}`,
+          url: `${process.env.VUE_APP_API_URL}/user/${this.$route.params.studentId}`,
         });
         this.student = data.data;
         this.loading = false;
@@ -102,9 +102,12 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student-course/${this.$route.params.studentId}/student`,
+          url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.$route.params.studentId}/student`,
         });
-        this.studentCourse = data.data[0].courseId;
+        console.log(data.data);
+        data.data.map((item) => {
+          this.studentCourse.push(item.course);
+        });
         this.loading = false;
       } catch (error) {
         console.error("error", error);

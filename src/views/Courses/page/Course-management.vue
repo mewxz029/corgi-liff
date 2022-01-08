@@ -90,7 +90,6 @@ export default {
     async getAllCourse() {
       this.loading = true;
       if (!this.teacher) {
-        console.log("yes");
         this.path = `/new-course`;
       } else {
         this.path = `/new-course/${this.teacher}/teacher`;

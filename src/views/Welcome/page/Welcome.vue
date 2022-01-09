@@ -86,7 +86,7 @@ export default {
         await liff.init({ liffId: "1656648626-k0e1wr2Q" });
         if (liff.isLoggedIn()) {
           const { userId } = await liff.getProfile();
-          // this.$store.dispatch("changeAction", userId);
+          this.$store.dispatch("setAction", userId);
           this.checkLineUid(userId);
         } else {
           liff.login();
@@ -104,10 +104,11 @@ export default {
         });
 
         this.isUsed = data.used;
-        this.getStudent(userId);
 
         if (!this.isUsed) {
           this.$router.push({ path: "/register" });
+        } else {
+          this.getStudent(userId);
         }
       } catch (error) {
         console.error("error", error);

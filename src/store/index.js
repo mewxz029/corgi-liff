@@ -5,9 +5,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    lineUid: "",
     student: {},
   },
   mutations: {
+    set(state, value) {
+      state.lineUid = value;
+    },
     add(state, value) {
       state.student = value;
     },
@@ -15,6 +19,9 @@ export default new Vuex.Store({
   actions: {
     addAction(context, value) {
       context.commit("add", value);
+    },
+    setAction(context, value) {
+      context.commit("set", value);
     },
   },
   modules: {},

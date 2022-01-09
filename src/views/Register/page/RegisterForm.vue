@@ -111,7 +111,7 @@ export default {
     },
   },
   mounted() {
-    this.form.lineUid = this.$store.state.student.lineUid;
+    this.form.lineUid = this.$store.state.lineUid;
   },
 };
 </script>

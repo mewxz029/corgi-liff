@@ -23,21 +23,27 @@
     </v-row>
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
-      <v-btn color="success" link router :to="`/check-course`" x-large
-        >ดูคอร์สเรียนของคุณ</v-btn
-      >
+      <v-col cols="8" sm="4">
+        <v-btn color="success" link router :to="`/check-course`" x-large
+          >ดูคอร์สเรียนของคุณ</v-btn
+        >
+      </v-col>
     </v-row>
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
-      <v-btn color="primary" link router :to="`/check-schedule`" x-large
-        >ดูตารางเรียนของคุณ</v-btn
-      >
+      <v-col cols="8" sm="4">
+        <v-btn color="primary" link router :to="`/check-schedule`" x-large
+          >ดูตารางเรียนของคุณ</v-btn
+        >
+      </v-col>
     </v-row>
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
-      <v-btn color="secondary" link router :to="`/check-playback`" x-large
-        >ดูวิดีโอย้อนหลัง</v-btn
-      >
+      <v-col cols="8" sm="4">
+        <v-btn color="secondary" link router :to="`/check-playback`" x-large
+          >ดูวิดีโอย้อนหลัง</v-btn
+        >
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -77,7 +83,7 @@ export default {
       try {
         const { data } = await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}student/check`,
+          url: `${process.env.VUE_APP_API_URL}/user/check`,
           data: { lineUid: this.$store.state.lineUid },
         });
 
@@ -94,12 +100,13 @@ export default {
     async getStudent(lineUid) {
       try {
         const { data } = await axios({
-          method: "get",
-          url: `${process.env.VUE_APP_API_URL}student/${lineUid}/lineUid`,
+          method: "post",
+          url: `${process.env.VUE_APP_API_URL}/user/login/student`,
+          data: { lineUid },
         });
-
-        this.student = data.data;
-        this.$store.dispatch("addAction", this.student);
+        console.log(data);
+        // this.student = data.data;
+        // this.$store.dispatch("addAction", this.student);
         this.loading = false;
       } catch (error) {
         console.error("error", error);

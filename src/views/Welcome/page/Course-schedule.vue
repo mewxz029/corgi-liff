@@ -57,7 +57,7 @@ export default {
         data.data.map((item) => {
           this.course.push(item.course.courseId);
         });
-
+        this.getScheduleByCourse();
         this.loading = false;
       } catch (error) {
         console.error("error", error);

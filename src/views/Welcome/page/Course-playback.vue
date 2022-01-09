@@ -58,7 +58,7 @@ export default {
           method: "get",
           url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.student.userId}/student`,
         });
-        console.log(data.data);
+
         data.data.map((item) => {
           this.allCourse.push(item.course);
         });

@@ -53,7 +53,7 @@ export default {
           method: "get",
           url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.student.userId}/student`,
         });
-        // this.allCourse = data.data[0].courseId;
+
         data.data.map((item) => {
           this.course.push(item.course.courseId);
         });
@@ -71,7 +71,7 @@ export default {
           url: `${process.env.VUE_APP_API_URL}/course-schedule/course`,
           data: { course: this.course },
         });
-        this.schedule = data.data;
+
         data.data.map((item) => {
           this.schedule.push({
             course: item.course,

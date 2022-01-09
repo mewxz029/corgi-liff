@@ -51,10 +51,13 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}student-course/${this.student._id}/student`,
+          url: `${process.env.VUE_APP_API_URL}/new-student-course/${this.student.userId}/student`,
         });
         console.log(data.data);
-        this.allCourse = data.data[0].courseId;
+        // this.allCourse = data.data[0].courseId;
+        data.data.map((item) => {
+          this.allCourse.push(item.course)
+        })
 
         this.loading = false;
       } catch (error) {

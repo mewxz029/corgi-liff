@@ -70,8 +70,8 @@ export default {
         await liff.init({ liffId: "1656648626-k0e1wr2Q" });
         if (liff.isLoggedIn()) {
           const { userId } = await liff.getProfile();
-          this.$store.dispatch("changeAction", userId);
-          this.checkLineUid();
+          // this.$store.dispatch("changeAction", userId);
+          this.checkLineUid(userId);
         } else {
           liff.login();
         }
@@ -79,16 +79,16 @@ export default {
         console.error("error", error);
       }
     },
-    async checkLineUid() {
+    async checkLineUid(userId) {
       try {
         const { data } = await axios({
           method: "post",
           url: `${process.env.VUE_APP_API_URL}/user/check`,
-          data: { lineUid: this.$store.state.lineUid },
+          data: { lineUid: userId },
         });
 
-        this.isUsed = data.data.used;
-        this.getStudent(this.$store.state.lineUid);
+        this.isUsed = data.used;
+        this.getStudent(userId);
 
         if (!this.isUsed) {
           this.$router.push({ path: "/register" });

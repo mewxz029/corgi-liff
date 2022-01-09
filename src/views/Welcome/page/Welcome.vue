@@ -21,7 +21,7 @@
     </v-row>
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
-      <v-col cols="6" sm="4" class="mx-auto">
+      <v-col cols="8" sm="4" class="mx-auto">
         <v-btn
           color="success"
           link

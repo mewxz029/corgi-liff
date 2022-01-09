@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <div class="d-flex justify-space-between align-center mx-10">
+  <v-container class="app-container">
+    <div class="d-flex justify-space-between align-center mx-5">
       <v-btn fab dark x-small color="red" link router :to="`/`">
         <v-icon> arrow_back </v-icon>
       </v-btn>
@@ -77,4 +77,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.app-container {
+  margin-top: 15px !important;
+}
+</style>
+

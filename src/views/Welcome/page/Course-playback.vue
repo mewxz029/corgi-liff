@@ -24,7 +24,7 @@
           max-height="100%"
           link
           router
-          :to="`/check-playback/${course.userId}`"
+          :to="`/check-playback/${course.courseId}`"
         >
           <v-list-item tile size="100" rounded>
             <v-list-item-avatar tile size="100">

@@ -1,7 +1,7 @@
 <template>
   <v-container class="app-container">
     <div class="d-flex justify-space-between align-center mx-5">
-      <v-btn fab dark x-small color="red" link router :to="`/`">
+      <v-btn fab dark x-small color="red" link router :to="`/check-playback`">
         <v-icon> arrow_back </v-icon>
       </v-btn>
       <v-icon color="black" large> book </v-icon>

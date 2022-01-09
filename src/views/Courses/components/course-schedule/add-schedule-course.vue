@@ -188,6 +188,10 @@ export default {
       this.form.end = "";
       this.form.url = "";
       this.form.note = "";
+      this.startHour = null;
+      this.startMinute = null;
+      this.endHour = null;
+      this.endMinute = null;
       this.dialog = false;
     },
     async createSchedule() {

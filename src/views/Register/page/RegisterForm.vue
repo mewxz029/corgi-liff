@@ -8,19 +8,8 @@
         <v-row>
           <v-text-field
             prepend-icon="person"
-            v-model="form.firstname"
-            label="ชื่อ"
-            type="text"
-            :rules="nameRules"
-            required
-          ></v-text-field>
-        </v-row>
-
-        <v-row>
-          <v-text-field
-            prepend-icon="person"
-            v-model="form.lastname"
-            label="นามสกุล"
+            v-model="form.name"
+            label="ชื่อ-สกุล"
             type="text"
             :rules="nameRules"
             required
@@ -86,8 +75,7 @@ export default {
     dialog: false,
     success: true,
     form: {
-      firstname: "",
-      lastname: "",
+      name: "",
       tel: "",
       lineUid: "",
     },
@@ -102,13 +90,12 @@ export default {
     async submit() {
       this.loading = true;
       try {
-        const { data } = await axios({
+        await axios({
           method: "post",
-          url: `${process.env.VUE_APP_API_URL}student`,
+          url: `${process.env.VUE_APP_API_URL}/user`,
           data: this.form,
         });
 
-        this.createStudentCourse(data.doc._id);
         this.success = true;
         this.loading = false;
       } catch (error) {
@@ -122,24 +109,9 @@ export default {
         this.$router.push("/");
       }
     },
-    async createStudentCourse(id) {
-      try {
-        await axios({
-          method: "post",
-          url: `${process.env.VUE_APP_API_URL}student-course/`,
-          data: {
-            studentId: id,
-            courseId: [],
-            note: "first registered",
-          },
-        });
-      } catch (error) {
-        console.log();
-      }
-    },
   },
   mounted() {
-    this.form.lineUid = this.$store.state.lineUid;
+    this.form.lineUid = this.$store.state.student.lineUid;
   },
 };
 </script>

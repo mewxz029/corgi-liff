@@ -1,6 +1,5 @@
 <template>
   <v-container class="app-container">
-    <v-row></v-row>
     <div class="d-flex justify-space-between align-center mx-5">
       <v-btn fab dark x-small color="red" link router :to="`/`">
         <v-icon> arrow_back </v-icon>

@@ -26,11 +26,11 @@
         >
           <v-list-item tile size="100" rounded>
             <v-list-item-avatar tile size="100">
-              <v-img :src="course.courseId.imgUrl"></v-img>
+              <v-img :src="course.course.imgUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <h3>{{ course.courseId.title }}</h3>
-              <h4>{{ new Date(course.date).toString().substr(0, 21) }}</h4>
+              <h3>{{ course.course.title }}</h3>
+              <h4>{{ course.date }}</h4>
             </v-list-item-content>
           </v-list-item>
         </v-card>
@@ -43,6 +43,7 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   data() {
@@ -60,11 +61,18 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}course-video/${this.$route.params.courseId}/course?limit=0`,
+          url: `${process.env.VUE_APP_API_URL}/new-course-video/${this.$route.params.courseId}/course?paginate=0`,
         });
-
-        this.courseVideo = data.data.result;
-        console.log(this.courseVideo);
+        data.data.docs.map((item) => {
+          this.courseVideo.push({
+            course: item.course,
+            url: item.url,
+            date: `${dayjs(item.schedule.start).format(
+              "YYYY-MM-DD HH:mm"
+            )} - ${dayjs(item.schedule.end).format("HH:mm")}`,
+          });
+        });
+        // this.courseVideo = data.data.docs;
         this.loading = false;
       } catch (error) {
         console.error("error", error);
@@ -82,4 +90,3 @@ export default {
   margin-top: 15px !important;
 }
 </style>
-

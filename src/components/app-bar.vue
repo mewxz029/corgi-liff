@@ -53,7 +53,7 @@ export default {
           route: "course",
         },
         {
-          title: "จัดการแอดมิน",
+          title: "จัดการผู้สอน",
           icon: "assignment_ind",
           route: "/auth",
         },

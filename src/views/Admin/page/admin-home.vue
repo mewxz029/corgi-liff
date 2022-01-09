@@ -105,7 +105,7 @@ export default {
       try {
         const { data } = await axios({
           method: "get",
-          url: `${process.env.VUE_APP_API_URL}/user/admin`,
+          url: `${process.env.VUE_APP_API_URL}/user/teacher-admin`,
           headers: { Authorization: `Bearer ${localStorage.token}` },
         });
 
@@ -113,7 +113,7 @@ export default {
         this.allPages = data.data.totalPages;
         this.currentPage = data.data.page;
         this.pageData = {
-          path: "/user/admin",
+          path: "/user/teacher-admin",
           allPages: data.data.totalPages,
           currentPage: data.data.page,
         };

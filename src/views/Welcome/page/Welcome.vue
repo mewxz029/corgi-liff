@@ -16,15 +16,19 @@
         <h1 class="text-center">ยินดีต้อนรับ</h1>
       </v-col>
       <v-col cols="12">
-        <h3 class="text-center">
-          คุณ{{ student.name }}
-        </h3>
+        <h3 class="text-center">คุณ{{ student.name }}</h3>
       </v-col>
     </v-row>
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
       <v-col cols="8" sm="4" class="mx-auto">
-        <v-btn color="success" link router :to="`/check-course`" x-large width="100%"
+        <v-btn
+          color="success"
+          link
+          router
+          :to="`/check-course`"
+          x-large
+          width="100%"
           >ดูคอร์สเรียนของคุณ</v-btn
         >
       </v-col>
@@ -32,7 +36,13 @@
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
       <v-col cols="8" sm="4" class="mx-auto">
-        <v-btn color="primary" link router :to="`/check-schedule`" x-large width="100%"
+        <v-btn
+          color="primary"
+          link
+          router
+          :to="`/check-schedule`"
+          x-large
+          width="100%"
           >ดูตารางเรียนของคุณ</v-btn
         >
       </v-col>
@@ -40,7 +50,13 @@
     <v-row class="mt-15"> </v-row>
     <v-row justify="center">
       <v-col cols="8" sm="4" class="mx-auto">
-        <v-btn color="secondary" link router :to="`/check-playback`" x-large width="100%"
+        <v-btn
+          color="secondary"
+          link
+          router
+          :to="`/check-playback`"
+          x-large
+          width="100%"
           >ดูวิดีโอย้อนหลัง</v-btn
         >
       </v-col>
@@ -105,7 +121,7 @@ export default {
           data: { lineUid },
         });
         console.log(data);
-        student = data.data.user
+        this.student = data.data.user;
         // this.student = data.data;
         // this.$store.dispatch("addAction", this.student);
         this.loading = false;

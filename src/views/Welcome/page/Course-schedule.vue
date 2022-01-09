@@ -26,7 +26,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <h3>{{ schedule.course.title }}</h3>
-              <h4>{{ schedule.start }}</h4>
+              <h4>{{ schedule.date }}</h4>
             </v-list-item-content>
           </v-list-item>
         </v-card>
@@ -37,7 +37,7 @@
 
 <script>
 import axios from "axios";
-// import axios from "axios";
+import dayjs from "dayjs";
 
 export default {
   data: () => ({
@@ -72,6 +72,14 @@ export default {
           data: { course: this.course },
         });
         this.schedule = data.data;
+        data.data.map((item) => {
+          this.schedule.push({
+            course: item.course,
+            date: `${dayjs(item.start).format("YYYY-MM-DD HH:mm")} - ${dayjs(
+              item.end
+            ).format("HH:mm")}`,
+          });
+        });
 
         this.loading = false;
       } catch (error) {

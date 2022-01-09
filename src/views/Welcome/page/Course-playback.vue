@@ -60,8 +60,8 @@ export default {
         });
         console.log(data.data);
         data.data.map((item) => {
-          this.allCourse.push(item.course)
-        })
+          this.allCourse.push(item.course);
+        });
 
         this.loading = false;
       } catch (error) {
